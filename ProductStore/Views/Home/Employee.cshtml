@@ -1,0 +1,44 @@
+﻿@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title></title>
+    <script src="@Url.Content("~/Scripts/knockout-2.1.0.debug.js")" type="text/javascript"></script>
+    <script type="text/javascript">
+        self.getById = function () {
+            self.status("");
+            var id = $('#EmployeeId').val();
+
+            if (!id.length) {
+                self.status("ID is required");
+                return;
+            }
+
+            // Send AJX request to get the Employee by ID
+            $.getJSON(
+                'api/Employees/' + id,
+                function (data) {
+                    self.Employee(new EmployeeViewModel(data));
+                })
+                // Handler for error response:
+                .fail(
+                    function (xhr, textStatus, err) {
+                        self.Employee(null);
+                        self.status(err);
+                    });
+        }
+    </script>
+</head>
+<body>
+    <div>
+        <label for="EmployeeId">ID</label>
+        <input type="text" title="ID" name='Id' id="EmployeeId" size="5" />
+        <input type="button" value="Get" data-bind="click: getById" />
+    </div>
+</body>
+</html>

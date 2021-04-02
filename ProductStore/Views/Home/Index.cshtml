@@ -1,5 +1,5 @@
 ﻿@{
-    ViewBag.Title = "Product Store";
+    ViewBag.Title = "Employee Store";
 }
 
 
@@ -45,73 +45,73 @@
 
             var self = this;
 
-            // A nested view model that represents a single product.
-            function ProductViewModel(product) {
+            // A nested view model that represents a single Employee.
+            function EmployeeViewModel(employee) {
                 var self = this;
 
-                self.Id = product.Id;
-                self.Name = product.Name;
-                self.Price = product.Price;
-                self.Category = product.Category;
+                self.Id = employee.Id;
+                self.Name = employee.Name;
+                self.Salary = employee.Salary;
+                self.Department = employee.Department;
             }
 
-            self.products = ko.observableArray();   // Contains the list of products
-            self.product = ko.observable();
+            self.Employees = ko.observableArray();   // Contains the list of Employees
+            self.Employee = ko.observable();
 
             self.status = ko.observable();
 
-            // Get a list of all products
+            // Get a list of all Employees
             self.getAll = function () {
 
-                self.products.removeAll();
-                $.getJSON("/api/products", function (products) {
-                    $.each(products, function (index, product) {
-                        self.products.push(new ProductViewModel(product));
+                self.Employees.removeAll();
+                $.getJSON("/api/Employees", function (Employees) {
+                    $.each(Employees, function (index, Employee) {
+                        self.Employees.push(new EmployeeViewModel(Employee));
                     })
                 });
             }
 
-            // Find a product by product ID
+            // Find a Employee by Employee ID
             self.getById = function () {
                 self.status("");
-                var id = $('#productId').val();
+                var id = $('#EmployeeId').val();
 
                 if (!id.length) {
                     self.status("ID is required");
                     return;
                 }
                 
-                // Send AJX request to get the product by ID
+                // Send AJX request to get the Employee by ID
                 $.getJSON(
-                    'api/products/' + id,
+                    'api/Employees/' + id,
                     function (data) {
-                        self.product(new ProductViewModel(data));
+                        self.Employee(new EmployeeViewModel(data));
                     })
                     // Handler for error response:
                     .fail(
                         function (xhr, textStatus, err) {
-                            self.product(null);
+                            self.Employee(null);
                             self.status(err);
                         });
             }
 
-            // Update product details
+            // Update Employee details
             self.update = function() {
                 self.status("");
-                var id = $('#productId').val();
+                var id = $('#EmployeeId').val();
 
-                var product = {
+                var Employee = {
                     Name: $('#name').val(),
-                    Price: $('#price').val(),
-                    Category: $('#category').val()
+                    Salary: $('#Salary').val(),
+                    Department: $('#Department').val()
                 };
 
                 $.ajax({
-                    url: 'api/products/' + id,
+                    url: 'api/Employees/' + id,
                     cache: false,
                     type: 'PUT',
                     contentType: 'application/json; charset=utf-8',
-                    data: JSON.stringify(product),
+                    data: JSON.stringify(Employee),
                     success: self.getAll
                 })
                 .fail(
@@ -123,21 +123,21 @@
             self.create = function () {
                 self.status("");
 
-                var product = {
+                var Employee = {
                     Name: $('#name2').val(),
-                    Price: $('#price2').val(),
-                    Category: $('#category2').val()
+                    Salary: $('#Salary2').val(),
+                    Department: $('#Department2').val()
                 };
 
                 $.ajax({
-                    url: 'api/products',
+                    url: 'api/Employees',
                     cache: false,
                     type: 'POST',
                     contentType: 'application/json; charset=utf-8',
-                    data: JSON.stringify(product),
+                    data: JSON.stringify(Employee),
                     statusCode: {
                         201 /*Created*/: function (data) {
-                            self.products.push(data);
+                            self.Employees.push(data);
                         }
                     }
                 })
@@ -149,9 +149,9 @@
             }
 
             // Initialize the view-model
-            $.getJSON("/api/products", function (products) {
-                $.each(products, function (index, product) {
-                    self.products.push(new ProductViewModel(product));
+            $.getJSON("/api/Employees", function (Employees) {
+                $.each(Employees, function (index, Employee) {
+                    self.Employees.push(new EmployeeViewModel(Employee));
                 })
             });
 
@@ -165,8 +165,8 @@
 
             clearStatus();
 
-            var product = ko.toJS(viewModel);
-            var json = JSON.stringify(product);
+            var Employee = ko.toJS(viewModel);
+            var json = JSON.stringify(Employee);
 
             $.ajax({
                 url: API_URL,
@@ -176,7 +176,7 @@
                 data: json,
                 statusCode: {
                     201 /*Created*/: function (data) {
-                        self.products.push(data);
+                        self.Employees.push(data);
                     }
                 }
             });
@@ -194,18 +194,18 @@
 
 <div id="body">
     <section class="content-wrapper main-content">
-        <h3>Products</h3>
+        <h3>Employees</h3>
 
-        <table id="products">
+        <table id="Employees">
         <thead>
-            <tr><th>ID</th><th>Name</th><th>Category</th><th>Price</th></tr>
+            <tr><th>ID</th><th>Name</th><th>Department</th><th>Salary</th></tr>
         </thead>
-        <tbody data-bind="foreach: products">
+        <tbody data-bind="foreach: Employees">
             <tr>
                 <td data-bind="text: Id"></td>
                 <td data-bind="text: Name"></td>
-                <td data-bind="text: Category"></td>
-                <td data-bind="text: Price"></td>
+                <td data-bind="text: Department"></td>
+                <td data-bind="text: Salary"></td>
             </tr>
         </tbody>
         </table>
@@ -215,29 +215,29 @@
 
     <div id="tabs"> <!-- div for jQuery UI tabs -->
 	    <ul>
-		    <li><a href="#viewTab">View Product</a></li>
-		    <li><a href="#addNewTab">Add New Product</a></li>
+		    <li><a href="#viewTab">View Employee</a></li>
+		    <li><a href="#addNewTab">Add New Employee</a></li>
 	    </ul>
 
         <div id="viewTab">
-        <label for="productId">ID</label>
-        <input type="text" title="ID" name='Id' id="productId" size="5"/>
+        <label for="EmployeeId">ID</label>
+        <input type="text" title="ID" name='Id' id="EmployeeId" size="5"/>
         <input type="button" value="Get" data-bind="click: getById"/>
 
-        <div data-bind="if: product()">
+        <div data-bind="if: Employee()">
             <div>
             <label for="name">Name</label>
-            <input data-bind="value: product().Name" type="text" title="Name" id="name" />
+            <input data-bind="value: Employee().Name" type="text" title="Name" id="name" />
             </div>
 
             <div>
-            <label for="category">Category</label>
-            <input data-bind="value: product().Category" type="text" title="Category" id="category" />
+            <label for="Department">Department</label>
+            <input data-bind="value: Employee().Department" type="text" title="Department" id="Department" />
             </div>
 
             <div>
-            <label for="price">Price</label>
-            <input data-bind="value: product().Price" type="text" title="Price" id="price" />
+            <label for="Salary">Salary</label>
+            <input data-bind="value: Employee().Salary" type="text" title="Salary" id="Salary" />
             </div>
 
             <div>
@@ -253,13 +253,13 @@
             </div>
 
             <div>
-            <label for="category">Category</label>
-            <input type="text" title="Category" id="category2" />
+            <label for="Department">Department</label>
+            <input type="text" title="Department" id="Department2" />
             </div>
 
             <div>
-            <label for="price">Price</label>
-            <input type="text" title="Price" id="price2" />
+            <label for="Salary">Salary</label>
+            <input type="text" title="Salary" id="Salary2" />
             </div>
 
             <div>

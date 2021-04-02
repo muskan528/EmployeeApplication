@@ -1,7 +1,9 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio Express 2012 for Web
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ProductStore", "ProductStore\ProductStore.csproj", "{CD7B1307-F089-4636-AE91-2D7FA349EE03}"
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.31129.286
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EmployeeApplication", "ProductStore\EmployeeApplication.csproj", "{CD7B1307-F089-4636-AE91-2D7FA349EE03}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".nuget", ".nuget", "{01B1D119-821F-43B1-AB91-3715A98354F5}"
 	ProjectSection(SolutionItems) = preProject
@@ -23,5 +25,8 @@ Global
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {0A211FE3-B313-43F6-A29A-E651615D2768}
 	EndGlobalSection
 EndGlobal

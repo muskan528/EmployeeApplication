@@ -5,23 +5,23 @@ using System.Net;
 using System.Net.Http;
 using System.Threading;
 using System.Web.Http;
-using ProductStore.Models;
+using EmployeeHub.Models;
 
-namespace ProductStore.Controllers
+namespace EmployeeHub.Controllers
 {
-    public class ProductsController : ApiController
+    public class EmployeesController : ApiController
     {
-        static readonly IProductRepository repository = new ProductRepository();
+        static readonly IEmployeeRepository repository = new EmployeeRepository();
 
-        public IEnumerable<Product> GetAllProducts()
+        public IEnumerable<Employee> GetAllEmployees()
         {
             Thread.Sleep(5000);
             return repository.GetAll();
         }
 
-        public Product GetProduct(int id)
+        public Employee GetEmployee(int id)
         {
-            Product item = repository.Get(id);
+            Employee item = repository.Get(id);
             if (item == null)
             {
                 throw new HttpResponseException(HttpStatusCode.NotFound);
@@ -29,23 +29,23 @@ namespace ProductStore.Controllers
             return item;
         }
 
-        public IEnumerable<Product> GetProductsByCategory(string category)
+        public IEnumerable<Employee> GetEmployeesByDepartment(string category)
         {
             return repository.GetAll().Where(
-                p => string.Equals(p.Category, category, StringComparison.OrdinalIgnoreCase));
+                p => string.Equals(p.Department, category, StringComparison.OrdinalIgnoreCase));
         }
 
-        public HttpResponseMessage PostProduct(Product item)
+        public HttpResponseMessage PostEmployee(Employee item)
         {
             item = repository.Add(item);
-            var response = Request.CreateResponse<Product>(HttpStatusCode.Created, item);
+            var response = Request.CreateResponse<Employee>(HttpStatusCode.Created, item);
 
             string uri = Url.Link("DefaultApi", new { id = item.Id });
             response.Headers.Location = new Uri(uri);
             return response;
         }
 
-        public void PutProduct(int id, Product product)
+        public void PutEmployee(int id, Employee product)
         {
             product.Id = id;
             if (!repository.Update(product))
@@ -54,7 +54,7 @@ namespace ProductStore.Controllers
             }
         }
 
-        public void DeleteProduct(int id)
+        public void DeleteEmployee(int id)
         {
             throw new Exception();
             repository.Remove(id);
