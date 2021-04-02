@@ -1,12 +1,12 @@
 using System.Web.Http;
 using WebActivatorEx;
-using ProductStore;
+using EmployeeApplication;
 using Swashbuckle.Application;
 using System.Linq;
 
 [assembly: PreApplicationStartMethod(typeof(SwaggerConfig), "Register")]
 
-namespace ProductStore
+namespace EmployeeApplication
 {
     public class SwaggerConfig
     {
@@ -33,7 +33,7 @@ namespace ProductStore
                         // hold additional metadata for an API. Version and title are required but you can also provide
                         // additional fields by chaining methods off SingleApiVersion.
                         //
-                        c.SingleApiVersion("v1", "ProductStore");
+                        c.SingleApiVersion("v1", "EmployeeApplication");
 
                         // If you want the output Swagger docs to be indented properly, enable the "PrettyPrint" option.
                         //

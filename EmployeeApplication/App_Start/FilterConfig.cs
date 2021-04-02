@@ -1,7 +1,7 @@
 ﻿using System.Web;
 using System.Web.Mvc;
 
-namespace ProductStore
+namespace EmployeeApplication
 {
     public class FilterConfig
     {

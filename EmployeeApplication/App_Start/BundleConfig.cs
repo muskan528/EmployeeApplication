@@ -1,7 +1,7 @@
 ﻿using System.Web;
 using System.Web.Optimization;
 
-namespace ProductStore
+namespace EmployeeApplication
 {
     public class BundleConfig
     {
